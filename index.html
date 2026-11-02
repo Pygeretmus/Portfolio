@@ -23,8 +23,10 @@
   --node: #E6EAE5;
   --header-h: 80px;
 }
+:root { color-scheme: light; }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --paper: #141A16;
     --surface: #1B231E;
     --ink: #E8EDE9;
@@ -36,6 +38,19 @@
     --green-soft: #1F3329;
     --node: #232D27;
   }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #141A16;
+  --surface: #1B231E;
+  --ink: #E8EDE9;
+  --muted: #9AA69F;
+  --line: #2E3A33;
+  --amber: #E6A91E;
+  --amber-soft: #3A3017;
+  --green: #6DB892;
+  --green-soft: #1F3329;
+  --node: #232D27;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
@@ -79,6 +94,20 @@ h1, h2, h3 { font-variation-settings: "opsz" 24; }
   text-decoration: none; color: var(--muted); font-weight: 500;
 }
 .top nav a:hover { color: var(--ink); background: var(--node); }
+.top-right { display: flex; align-items: center; gap: 6px; }
+.theme-toggle {
+  display: grid; place-items: center; width: 48px; height: 48px; margin-right: -10px;
+  border: 0; border-radius: 10px; background: transparent; color: var(--muted); cursor: pointer;
+}
+.theme-toggle:hover { color: var(--ink); background: var(--node); }
+.theme-toggle svg { width: 22px; height: 22px; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
+}
 
 /* Hero */
 .hero {
@@ -219,8 +248,12 @@ section h2 {
   .wrap { padding: 0 16px; }
   .me { font-size: 0; padding-right: 0; }
   .me img { width: 44px; height: 44px; }
-  .top nav { font-size: 15px; margin-right: -6px; flex-wrap: nowrap; }
-  .top nav a { padding: 12px 6px; }
+  .top { gap: 8px; }
+  .top nav { font-size: 14px; margin-right: 0; flex-wrap: nowrap; }
+  .top nav a { padding: 12px 5px; }
+  .top-right { gap: 0; }
+  .theme-toggle { width: 38px; height: 44px; margin-right: -8px; }
+  .theme-toggle svg { width: 20px; height: 20px; }
   section { padding: 56px 0; }
   .lead, .hero .intro { font-size: 18px; }
   .contact-links { grid-template-columns: 1fr; }
@@ -234,12 +267,21 @@ section h2 {
   .cmp td.now::before { content: "2026: "; font-weight: 600; color: var(--green); }
 }
 </style>
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
 <header class="topbar">
   <div class="wrap top">
     <a class="me" href="#top" aria-label="Maksym Kozlov, back to top"><img src="assets/avatar.jpg" alt="">Maksym Kozlov</a>
+    <div class="top-right">
     <nav aria-label="Main">
       <a href="#drivesmart">Work</a>
       <a href="#rebuilt">Rebuilt</a>
@@ -247,6 +289,11 @@ section h2 {
       <a href="#contact">Contact</a>
       <a href="assets/CV_MAKSYM_KOZLOV.pdf">CV</a>
     </nav>
+    <button class="theme-toggle" type="button" aria-label="Switch theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+    </button>
+    </div>
   </div>
 </header>
 
@@ -382,7 +429,7 @@ section h2 {
         <h3>Quizzes <span class="year">2023</span></h3>
         <div>
           <p>A platform where companies run quizzes for their members: invitations, quizzes with scores, results analytics, notifications and export to CSV.</p>
-          <p class="stack">FastAPI, PostgreSQL, SQLAlchemy, Redis, Docker, 331 tests (98% coverage)</p>
+          <p class="stack">FastAPI, PostgreSQL, SQLAlchemy, Redis, Docker, 330 tests (98% coverage)</p>
         </div>
         <a class="code" href="https://github.com/Pygeretmus/Quizzes">View code</a>
       </li>
@@ -409,6 +456,27 @@ section h2 {
     function onScroll() { bar.classList.toggle('scrolled', window.scrollY > 8); }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // Light / dark theme switch; the choice is remembered in this browser.
+    var root = document.documentElement;
+    var toggle = document.querySelector('.theme-toggle');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    function currentTheme() {
+      return root.getAttribute('data-theme') || (prefersDark.matches ? 'dark' : 'light');
+    }
+    function updateLabel() {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+      toggle.setAttribute('title', 'Switch to ' + next + ' theme');
+    }
+    toggle.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      updateLabel();
+    });
+    prefersDark.addEventListener('change', updateLabel);
+    updateLabel();
 
     // One wheel gesture moves to the next or previous full-screen panel.
     // Panels taller than the screen scroll normally until their edge.
