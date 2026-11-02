@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maksym Kozlov — Python Backend Developer</title>
+<meta name="description" content="Maksym Kozlov, Python backend developer from Ukraine. I build the server side of web and mobile apps: data, business logic, payments and cloud setup.">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F2F4F1;
+  --surface: #FFFFFF;
+  --ink: #18211C;
+  --muted: #56615B;
+  --line: #D3D9D2;
+  --amber: #C98A00;
+  --amber-soft: #F6E7C1;
+  --green: #2F6B4F;
+  --green-soft: #DCEBE2;
+  --node: #E6EAE5;
+  --header-h: 80px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141A16;
+    --surface: #1B231E;
+    --ink: #E8EDE9;
+    --muted: #9AA69F;
+    --line: #2E3A33;
+    --amber: #E6A91E;
+    --amber-soft: #3A3017;
+    --green: #6DB892;
+    --green-soft: #1F3329;
+    --node: #232D27;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-optical-sizing: auto;
+  font-size: 17px;
+  line-height: 1.55;
+}
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--green); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+h1, h2, h3 { font-variation-settings: "opsz" 24; }
+
+/* Header */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+.topbar.scrolled { border-bottom-color: var(--line); }
+.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: var(--header-h);
+}
+.me {
+  display: flex; align-items: center; gap: 14px; text-decoration: none;
+  font-weight: 700; font-size: 24px; letter-spacing: -0.005em;
+  padding: 8px 12px 8px 0;
+}
+.me img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+.top nav { display: flex; flex-wrap: wrap; font-size: 17px; margin-right: -14px; }
+.top nav a {
+  display: block; padding: 14px 14px; border-radius: 10px;
+  text-decoration: none; color: var(--muted); font-weight: 500;
+}
+.top nav a:hover { color: var(--ink); background: var(--node); }
+
+/* Hero */
+.hero {
+  display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 80px; align-items: center;
+  padding-top: 40px; padding-bottom: 56px;
+}
+.hero h1 {
+  font-size: clamp(40px, 5.4vw, 66px);
+  line-height: 1.08; letter-spacing: -0.01em; font-weight: 700;
+  margin: 0 0 24px; max-width: 14ch;
+}
+.hero .intro { font-size: 20px; color: var(--muted); max-width: 36em; margin: 0 0 30px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; padding: 13px 22px; border-radius: 999px; text-decoration: none;
+  font-weight: 600; font-size: 17px; border: 1.5px solid var(--ink);
+}
+.btn.primary { background: var(--ink); color: var(--paper); }
+.btn.primary:hover { background: var(--green); border-color: var(--green); color: #fff; }
+.btn:not(.primary):hover { border-color: var(--green); }
+
+/* Work process */
+.process { margin: 0; padding: 0; list-style: none; position: relative; }
+.process li:not(:last-child)::before {
+  content: ""; position: absolute; left: 21px; top: 44px; bottom: 0;
+  width: 2px; background: var(--line);
+}
+.process li {
+  position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 18px;
+  align-items: start; padding: 0 0 22px;
+}
+.process li:last-child { padding-bottom: 0; }
+.step {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; font-weight: 700; font-size: 17px;
+  background: var(--node); border: 1.5px solid var(--line); color: var(--ink);
+  position: relative; z-index: 1;
+}
+.process strong { display: block; font-size: 19px; font-weight: 600; line-height: 1.3; padding-top: 2px; }
+.process span { color: var(--muted); font-size: 16px; }
+.process li .step { animation: lit 10s infinite; animation-delay: calc(var(--i) * 2s); }
+.process li:last-child .step { animation-name: lit-last; }
+@keyframes lit {
+  0%, 16% { background: var(--amber-soft); border-color: var(--amber); }
+  22%, 100% { background: var(--node); border-color: var(--line); }
+}
+@keyframes lit-last {
+  0%, 16% { background: var(--green-soft); border-color: var(--green); }
+  22%, 100% { background: var(--node); border-color: var(--line); }
+}
+.process-caption { font-size: 15px; color: var(--muted); margin: 18px 0 0 62px; }
+@media (prefers-reduced-motion: reduce) {
+  .process li .step { animation: none; }
+}
+
+/* Sections */
+section { padding: 40px 0; border-top: 1px solid var(--line); }
+.panel { min-height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+.panel > .wrap { width: 100%; }
+@media (min-width: 961px) and (min-height: 720px) {
+  html { scroll-snap-type: y proximity; }
+  .panel { scroll-snap-align: start; }
+}
+section h2 {
+  font-size: clamp(32px, 4vw, 46px); letter-spacing: -0.005em; line-height: 1.12;
+  font-weight: 700; margin: 0 0 16px;
+}
+.lead { font-size: 20px; color: var(--muted); margin: 0 0 44px; }
+
+/* Case */
+.facts {
+  margin: 0 0 32px; display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 4px 56px;
+  padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.facts div { min-width: 0; }
+.facts dt { color: var(--muted); font-size: 15px; }
+.facts dd { margin: 0; font-size: 17px; }
+.built { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 40px; }
+.built strong { display: block; font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+.built p { margin: 0; color: var(--muted); }
+
+/* Before / after */
+.pair-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; margin-bottom: 16px; }
+.pair-head h2 { margin: 0; }
+#rebuilt .lead, #rebuilt-mail .lead { margin-bottom: 28px; }
+.pair-links { display: flex; gap: 8px; font-size: 16px; white-space: nowrap; }
+.pair-links a { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
+.pair-links a:hover { border-color: var(--green); }
+.cmp {
+  width: 100%; border-collapse: collapse; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 14px; overflow: hidden; font-size: 16px; line-height: 1.45;
+}
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 9px 18px; border-bottom: 1px solid var(--line); }
+.cmp tr:last-child td, .cmp tr:last-child th { border-bottom: 0; }
+.cmp thead th { font-weight: 600; font-size: 16px; color: var(--muted); }
+.cmp thead th.now { color: var(--green); }
+.cmp tbody th { font-weight: 600; width: 15%; }
+.cmp td.then { color: var(--muted); width: 27%; }
+.cmp td.now { width: 58%; }
+
+/* Project list */
+.projects { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.projects li {
+  display: grid; grid-template-columns: 260px 1fr auto; gap: 8px 48px; align-items: start;
+  padding: 26px 0; border-bottom: 1px solid var(--line);
+}
+.projects h3 { margin: 0; font-size: 21px; font-weight: 600; }
+.projects .year { display: block; color: var(--muted); font-size: 16px; font-weight: 400; }
+.projects p { margin: 0; }
+.projects .stack { color: var(--muted); font-size: 15px; margin-top: 6px; }
+.projects .code { font-size: 16px; white-space: nowrap; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
+.projects .code:hover { border-color: var(--green); }
+
+/* Contact */
+#contact h2 { font-size: clamp(40px, 6vw, 72px); margin-bottom: 18px; }
+#contact .lead { margin-bottom: 40px; max-width: 34em; }
+.contact-links { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.contact-links a {
+  display: block; padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px;
+  background: var(--surface); text-decoration: none;
+}
+.contact-links a:hover { border-color: var(--green); color: inherit; }
+.contact-links b { display: block; font-size: 19px; font-weight: 600; }
+.contact-links span { color: var(--muted); font-size: 15px; word-break: break-all; }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 48px; }
+  .built { grid-template-columns: 1fr 1fr; }
+  .facts { grid-template-columns: 1fr 1fr; gap: 12px 32px; }
+  .hero { padding-top: 32px; padding-bottom: 64px; }
+  .projects li { grid-template-columns: 1fr; }
+  .projects .code { justify-self: start; }
+  .contact-links { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  :root { --header-h: 64px; }
+  .wrap { padding: 0 16px; }
+  .me { font-size: 0; padding-right: 0; }
+  .me img { width: 44px; height: 44px; }
+  .top nav { font-size: 15px; margin-right: -6px; flex-wrap: nowrap; }
+  .top nav a { padding: 12px 6px; }
+  section { padding: 56px 0; }
+  .lead, .hero .intro { font-size: 18px; }
+  .contact-links { grid-template-columns: 1fr; }
+  .built, .facts { grid-template-columns: 1fr; }
+  .cmp, .cmp tbody, .cmp tr, .cmp th, .cmp td { display: block; width: auto !important; }
+  .cmp thead { display: none; }
+  .cmp tbody tr { border-bottom: 1px solid var(--line); padding: 12px 16px; }
+  .cmp tbody tr:last-child { border-bottom: 0; }
+  .cmp th, .cmp td { border: 0; padding: 2px 0; }
+  .cmp td.then::before { content: "2023: "; font-weight: 600; }
+  .cmp td.now::before { content: "2026: "; font-weight: 600; color: var(--green); }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap top">
+    <a class="me" href="#top" aria-label="Maksym Kozlov, back to top"><img src="assets/avatar.jpg" alt="">Maksym Kozlov</a>
+    <nav aria-label="Main">
+      <a href="#drivesmart">Work</a>
+      <a href="#rebuilt">Rebuilt</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="assets/CV_MAKSYM_KOZLOV.pdf">CV</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="panel">
+  <div class="wrap hero">
+    <div>
+      <h1>From a feature list to a working product.</h1>
+      <p class="intro">I'm Maksym, a Python developer from Kharkiv, Ukraine, with 2 years of commercial experience designing, developing and deploying products from a feature list to a running system. Experienced in backend architecture, payment flows and AWS infrastructure.</p>
+      <div class="actions">
+        <a class="btn primary" href="assets/CV_MAKSYM_KOZLOV.pdf">Download CV</a>
+        <a class="btn" href="#contact">Contact me</a>
+      </div>
+    </div>
+
+    <div>
+      <ol class="process" aria-label="How I work on a project">
+        <li style="--i:0"><span class="step">1</span><div><strong>Feature list</strong><span>Agree on what the product needs to do</span></div></li>
+        <li style="--i:1"><span class="step">2</span><div><strong>Design</strong><span>Plan the data, the rules and how the app talks to the server</span></div></li>
+        <li style="--i:2"><span class="step">3</span><div><strong>Build</strong><span>Write the backend, payments and integrations</span></div></li>
+        <li style="--i:3"><span class="step">4</span><div><strong>Test</strong><span>Automated checks run on every change</span></div></li>
+        <li style="--i:4"><span class="step">5</span><div><strong>Launch</strong><span>Deploy to the cloud with automatic releases</span></div></li>
+      </ol>
+      <p class="process-caption">How I take a project from start to launch, the way I did at DriveSmart.</p>
+    </div>
+  </div>
+</main>
+
+<section id="drivesmart" class="panel">
+  <div class="wrap">
+    <h2>DriveSmart</h2>
+    <p class="lead">A car-sharing app in Dubai where people rent cars from private owners. Owners list their cars, renters book and pay in the app, and the platform holds the money until the car is returned. I built the whole server side of the app from scratch.</p>
+
+    <div>
+      <dl class="facts">
+        <div><dt>Company</dt><dd>Zyklum (Germany, remote)</dd></div>
+        <div><dt>When</dt><dd>Jul 2025 – Jun 2026</dd></div>
+        <div><dt>Role</dt><dd>Backend developer</dd></div>
+        <div><dt>Stack</dt><dd>Django, DRF, PostgreSQL, Celery, Redis, MamoPay, AWS</dd></div>
+      </dl>
+      <ul class="built">
+        <li><strong>Bookings from request to return</strong><p>Every rental moves through clear steps: request, owner approval, car handover, return. The system knows what is allowed at each step, so a booking can never end up in a broken state.</p></li>
+        <li><strong>Payments and payouts</strong><p>Renters pay by card in the app, and owners get paid automatically after the rental. Extensions, early or late returns, car delivery, damage and fines are all charged correctly.</p></li>
+        <li><strong>Fair cancellations</strong><p>The earlier a renter cancels, the more money they get back; owners who cancel pay a penalty. Everything is calculated automatically.</p></li>
+        <li><strong>Cloud setup and releases</strong><p>Set up the servers on Amazon Web Services. Every change is tested automatically and released without manual steps.</p></li>
+        <li><strong>Sign-in, chat and tools for the team</strong><p>Sign-in with Google or a phone number, chat between owners and renters, push notifications, and an admin panel where the team checks documents and resolves disputes.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="rebuilt" class="panel">
+  <div class="wrap">
+    <div class="pair-head">
+      <h2>Commerce, rebuilt</h2>
+      <div class="pair-links">
+        <a href="https://github.com/Pygeretmus/Commerce">2023 code</a>
+        <a href="https://github.com/Pygeretmus/Commerce-Updated">2026 code</a>
+      </div>
+    </div>
+    <p class="lead">An online auction where sellers list items and buyers compete with bids. I built it in 2023 as a study project for Harvard's CS50 Web course and rebuilt it from scratch in 2026, the way I would build a real product. Both versions are public.</p>
+    <table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">2023</th><th scope="col" class="now">2026</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Built with</th><td class="then">Python, Django, MySQL, HTML templates</td><td class="now">Python, Django REST Framework, PostgreSQL, Redis, Celery, Django Channels, React, TypeScript, Docker</td></tr>
+        <tr><th scope="row">How it's built</th><td class="then">One Django site: the server builds every page and sends it to the browser</td><td class="now">Two parts: a backend that stores the data and applies the rules, and a separate React web app</td></tr>
+        <tr><th scope="row">Bidding</th><td class="then">A simple form: enter an amount and submit</td><td class="now">Bids stay correct even when many people bid in the same second; each bid must beat the last by a set step; sellers can set a hidden minimum price; a bid in the last two minutes extends the auction, so nobody wins at the final second</td></tr>
+        <tr><th scope="row">Live updates</th><td class="then">Refresh the page to see new bids</td><td class="now">Prices, bids and notifications update instantly in every open web tab</td></tr>
+        <tr><th scope="row">Ending auctions</th><td class="then">The seller closes the auction by hand</td><td class="now">Auctions close automatically at their end time, and the winner and the seller get notified</td></tr>
+        <tr><th scope="row">Finding items</th><td class="then">Browse listings by category</td><td class="now">Search by words in the title and description; filter by category, status, price range and seller; sort by newest, ending soon, price or number of bids</td></tr>
+        <tr><th scope="row">Quality checks</th><td class="then">No automated tests</td><td class="now">444 automated tests check the code on every change</td></tr>
+        <tr><th scope="row">Setup</th><td class="then">Runs only on a developer's computer</td><td class="now">Starts with one command using Docker, ready to move to a real server</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="rebuilt-mail" class="panel">
+  <div class="wrap">
+    <div class="pair-head">
+      <h2>Mail, rebuilt</h2>
+      <div class="pair-links">
+        <a href="https://github.com/Pygeretmus/Mail">2023 code</a>
+        <a href="https://github.com/Pygeretmus/Mail-Updated">2026 code</a>
+      </div>
+    </div>
+    <p class="lead">A Gmail-style email service for users of the same site. In the 2023 CS50 version the backend was provided and I wrote only the part that runs in the browser; in 2026 I built both parts myself.</p>
+    <table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">2023</th><th scope="col" class="now">2026</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Built with</th><td class="then">JavaScript on top of the course's Django backend</td><td class="now">Python, Django REST Framework, PostgreSQL, Redis, Celery, React, TypeScript, Docker</td></tr>
+        <tr><th scope="row">How it's built</th><td class="then">The course gave a ready backend; I wrote the browser part in plain JavaScript</td><td class="now">I wrote both parts: a backend that stores the mail and applies the rules, and a separate React web app</td></tr>
+        <tr><th scope="row">Conversations</th><td class="then">Inbox, Sent and Archive</td><td class="now">Replies are grouped into conversations; send to several people with CC and hidden BCC; sort mail with Gmail-style labels; everyone has their own read and unread status</td></tr>
+        <tr><th scope="row">Deleting</th><td class="then">Not possible</td><td class="now">Deleted mail goes to the trash, can be restored, and is removed for good after 30 days</td></tr>
+        <tr><th scope="row">Account</th><td class="then">Register and log in</td><td class="now">Edit your profile, change your password or delete your account; sensitive actions ask for your password first</td></tr>
+        <tr><th scope="row">Interface</th><td class="then">One basic page</td><td class="now">Light and dark themes, English and Ukrainian, works on phones</td></tr>
+        <tr><th scope="row">Quality checks</th><td class="then">No automated tests</td><td class="now">186 automated tests check the code on every change</td></tr>
+        <tr><th scope="row">Setup</th><td class="then">Runs only on a developer's computer</td><td class="now">Starts with one command using Docker, ready to move to a real server</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="projects" class="panel">
+  <div class="wrap">
+    <h2>More projects</h2>
+    <p class="lead">Smaller backends, newest first. Each one starts with a single command and has automated tests.</p>
+    <ul class="projects">
+      <li>
+        <h3>URL shortener <span class="year">2026</span></h3>
+        <div>
+          <p>Turns long links into short ones. A link can be public or private for signed-in users, and only its author can change or delete it.</p>
+          <p class="stack">Django 6, Django REST Framework, PostgreSQL, nginx, Docker, 27 tests</p>
+        </div>
+        <a class="code" href="https://github.com/Pygeretmus/url-shortener">View code</a>
+      </li>
+      <li>
+        <h3>Event management <span class="year">2025</span></h3>
+        <div>
+          <p>Create events, let people sign up, find events by name or date, and send email notifications to participants.</p>
+          <p class="stack">Django, Django REST Framework, PostgreSQL, Docker, 37 tests</p>
+        </div>
+        <a class="code" href="https://github.com/Pygeretmus/event-management">View code</a>
+      </li>
+      <li>
+        <h3>Estimation tool <span class="year">2025</span></h3>
+        <div>
+          <p>Estimates the cost of building an app: pick a platform and the features you need, and get an estimate. The admin sets up the options and prices.</p>
+          <p class="stack">Django, PostgreSQL, Docker, 13 tests</p>
+        </div>
+        <a class="code" href="https://github.com/Pygeretmus/estimation-tool">View code</a>
+      </li>
+      <li>
+        <h3>Quizzes <span class="year">2023</span></h3>
+        <div>
+          <p>A platform where companies run quizzes for their members: invitations, quizzes with scores, results analytics, notifications and export to CSV.</p>
+          <p class="stack">FastAPI, PostgreSQL, SQLAlchemy, Redis, Docker, 331 tests</p>
+        </div>
+        <a class="code" href="https://github.com/Pygeretmus/Quizzes">View code</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="contact" class="panel">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p class="lead">I'm open to Python developer roles, remote. Write to me in whichever way suits you.</p>
+    <ul class="contact-links">
+      <li><a href="mailto:kozlovmaksinn@gmail.com"><b>Email</b><span>kozlovmaksinn@gmail.com</span></a></li>
+      <li><a href="https://t.me/LiNCrYbNeS"><b>Telegram</b><span>@LiNCrYbNeS</span></a></li>
+      <li><a href="https://www.linkedin.com/in/kozlov-maksym/"><b>LinkedIn</b><span>kozlov-maksym</span></a></li>
+      <li><a href="https://github.com/Pygeretmus"><b>GitHub</b><span>Pygeretmus</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var bar = document.querySelector('.topbar');
+    function onScroll() { bar.classList.toggle('scrolled', window.scrollY > 8); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // One wheel gesture moves to the next or previous full-screen panel.
+    // Panels taller than the screen scroll normally until their edge.
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+    var wide = window.matchMedia('(min-width: 961px) and (min-height: 720px)');
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var busy = false, startedAt = 0, quietTimer = null;
+
+    function headerHeight() { return bar.getBoundingClientRect().height; }
+    function currentIndex() {
+      var line = headerHeight() + 4, idx = 0;
+      panels.forEach(function (el, i) { if (el.getBoundingClientRect().top <= line) idx = i; });
+      return idx;
+    }
+    function release() {
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(function () {
+        if (Date.now() - startedAt >= 700) busy = false; else release();
+      }, 180);
+    }
+
+    window.addEventListener('wheel', function (e) {
+      if (!wide.matches || e.ctrlKey || Math.abs(e.deltaY) < 2) return;
+      if (busy) { e.preventDefault(); release(); return; }
+      var dir = e.deltaY > 0 ? 1 : -1;
+      var i = currentIndex();
+      var rect = panels[i].getBoundingClientRect();
+      if (dir > 0 && rect.bottom > window.innerHeight + 2) return;
+      if (dir < 0 && rect.top < headerHeight() - 2) return;
+      var target = panels[i + dir];
+      if (!target) return;
+      e.preventDefault();
+      busy = true; startedAt = Date.now();
+      target.scrollIntoView({ behavior: still.matches ? 'auto' : 'smooth', block: 'start' });
+      release();
+    }, { passive: false });
+  })();
+</script>
+</body>
+</html>
